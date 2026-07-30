@@ -1,0 +1,146 @@
+/* Importando as fontes autorizadas do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Public+Sans:wght@600;700&display=swap');
+
+/* Tokens de cores e variáveis do Design System Admin Logic */
+:root {
+    --gfs-surface: #f7f9fb;
+    --gfs-surface-dim: #d8dadc;
+    --gfs-surface-bright: #f7f9fb;
+    --gfs-surface-container-lowest: #ffffff;
+    --gfs-surface-container-low: #f2f4f6;
+    --gfs-surface-container: #eceef0;
+    --gfs-surface-container-high: #e6e8ea;
+    --gfs-surface-container-highest: #e0e3e5;
+    --gfs-on-surface: #191c1e;
+    --gfs-on-surface-variant: #444651;
+    --gfs-outline: #757682;
+    --gfs-outline-variant: #c5c5d3;
+    
+    --gfs-primary: #0f2d7b;
+    --gfs-on-primary: #ffffff;
+    --gfs-primary-container: #2c4593;
+    --gfs-on-primary-container: #a5b7ff;
+    
+    --gfs-secondary: #97378d;
+    --gfs-on-secondary: #ffffff;
+    --gfs-secondary-container: #fd8feb;
+    
+    --gfs-success: #10b981;
+    --gfs-warning: #f59e0b;
+    --gfs-error: #ba1a1a;
+    --gfs-on-error: #ffffff;
+    --gfs-error-container: #ffdad6;
+    
+    --gfs-border-radius-sm: 0.125rem;
+    --gfs-border-radius: 0.25rem; /* 4px */
+    --gfs-border-radius-lg: 0.5rem;  /* 8px */
+    --gfs-border-radius-xl: 0.75rem; /* 12px */
+    --gfs-border-radius-full: 9999px;
+}
+
+/* Tipografia Geral */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--gfs-surface);
+    color: var(--gfs-on-surface);
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 700;
+}
+
+/* Números tabulares para alinhar tabelas e valores KPI */
+.tnum,
+.table td,
+.kpi-value,
+.data-mono {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Botões, Inputs e formulários com cantos suavizados de 4px (0.25rem) */
+.btn,
+.form-control,
+.form-select,
+.input-group-text {
+    border-radius: var(--gfs-border-radius) !important;
+}
+
+/* Status pills com raio total (100px) */
+.status-pill {
+    border-radius: var(--gfs-border-radius-full) !important;
+    padding: 0.25rem 0.75rem;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* Botões Customizados do Admin Logic */
+.btn-primary {
+    background-color: var(--gfs-primary-container) !important;
+    border-color: var(--gfs-primary-container) !important;
+    color: var(--gfs-on-primary) !important;
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--gfs-primary) !important;
+    border-color: var(--gfs-primary) !important;
+}
+
+.btn-secondary {
+    background-color: transparent !important;
+    border-color: var(--gfs-primary-container) !important;
+    color: var(--gfs-primary-container) !important;
+}
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--gfs-surface-container) !important;
+    color: var(--gfs-primary) !important;
+}
+
+.btn-tertiary {
+    background-color: var(--gfs-secondary) !important;
+    border-color: var(--gfs-secondary) !important;
+    color: var(--gfs-on-secondary) !important;
+}
+.btn-tertiary:hover {
+    filter: brightness(0.9);
+}
+
+/* Customizações Adicionais de Input */
+.form-control {
+    border: 1px solid var(--gfs-outline-variant);
+}
+.form-control:focus {
+    border-color: var(--gfs-primary-container);
+    box-shadow: 0 0 0 0.2rem rgba(44, 69, 147, 0.25);
+}
+
+/* Cartões KPI do Dashboard */
+.kpi-card {
+    background-color: var(--gfs-surface-container-lowest);
+    border: 1px solid var(--gfs-surface-container-high);
+    border-radius: var(--gfs-border-radius-sm);
+    padding: 16px;
+}
+
+/* Cores Funcionais de Lançamentos */
+.text-receita {
+    color: var(--gfs-success) !important;
+}
+.text-despesa {
+    color: var(--gfs-error) !important;
+}
+.bg-receita-light {
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
+}
+.bg-despesa-light {
+    background-color: var(--gfs-error-container) !important;
+    color: var(--gfs-on-error-container) !important;
+}
+.bg-pendente-light {
+    background-color: #fef3c7 !important;
+    color: #92400e !important;
+}

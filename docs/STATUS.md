@@ -1,0 +1,86 @@
+# Status do Projeto - Gestão Financeira Simples
+
+Este documento registra o progresso atual do desenvolvimento do sistema, detalhando o estado de cada fase e indicando as próximas ações.
+
+* **Última Atualização:** 29/07/2026 22:45 (Local)
+* **Fase Atual:** Fase 2 - Layout Base e Templates (Design System)
+* **Próximo Passo Recomendado:** Implementar os arquivos de templates reutilizáveis (header, footer, sidebar) e customizações em `public/assets/js/app.js` de acordo com a identidade visual Admin Logic.
+
+---
+
+## Progresso das Fases
+
+### [x] Fase 1 - Infraestrutura e Base do Projeto
+* **Status:** Concluído
+* **Progresso:** 100%
+* **Checklist:**
+  * [x] Criar estrutura física inicial de pastas do projeto
+  * [x] Criar plano de desenvolvimento `docs/PLANO.md`
+  * [x] Criar arquivo de contexto da IA `AGENTS.md`
+  * [x] Criar arquivo de logs de erros `docs/ERROS.md`
+  * [x] Criar DDL do banco de dados em `database/schema.sql`
+  * [x] Criar arquivo de configuração `config/config.php`
+  * [x] Criar arquivo de conexão do banco de dados `config/database.php`
+  * [x] Criar helpers de infraestrutura (`Sanitizer.php`, `Logger.php`, `CSRF.php`, `Auth.php`)
+  * [x] Configurar arquivos `.htaccess` de segurança nos diretórios
+  * [x] Criar Front Controller `public/index.php` inicial
+  * [x] Copiar favicon `cursoemvideo-logo.ico` do diretório `docs` para `public/assets/images/`
+  * [x] Adicionar bibliotecas locais CSS/JS do Bootstrap 5 e Chart.js
+
+### [ ] Fase 2 - Layout Base e Templates (Design System)
+* **Status:** Pendente
+* **Progresso:** 0%
+* **Checklist:**
+  * [ ] Escrever o CSS customizado em `public/assets/css/admin-logic.css` (Base inicial criada)
+  * [ ] Criar o cabeçalho (`header.php`), barra lateral de navegação (`sidebar.php`) e rodapé (`footer.php`)
+  * [ ] Criar o arquivo `app.js` global
+
+### [ ] Fase 3 - Módulo de Autenticação e Sessão
+* **Status:** Pendente
+* **Progresso:** 0%
+* **Checklist:**
+  * [ ] Implementar a model `Usuario.php`
+  * [ ] Implementar `AuthController.php`
+  * [ ] Criar as telas de login, cadastro, recuperação e redefinição de senha
+  * [ ] Configurar logs em `logs/security.log` e e-mails fictícios em `logs/email_simulation.log`
+
+### [ ] Fase 4 - Dashboard e Extrato (Leitura)
+* **Status:** Pendente
+* **Progresso:** 0%
+* **Checklist:**
+  * [ ] Criar a model `Lancamento.php` (métodos de leitura)
+  * [ ] Implementar `DashboardController.php` e a tela de Dashboard com KPI cards e alerta de saldo negativo
+  * [ ] Renderizar gráficos Chart.js locais no painel
+  * [ ] Desenvolver a tela de Extrato com busca textual e filtros de data e categoria
+
+### [ ] Fase 5 - CRUD de Lançamentos e Modais
+* **Status:** Pendente
+* **Progresso:** 0%
+* **Checklist:**
+  * [ ] Implementar métodos de mutação de lançamentos em `Lancamento.php` e `LancamentosController.php`
+  * [ ] Desenvolver os modais de cadastro e edição de lançamentos
+  * [ ] Desenvolver o modal de confirmação de exclusão lógica
+
+### [ ] Fase 6 - Categorias Personalizadas e Exclusão com Modal
+* **Status:** Pendente
+* **Progresso:** 0%
+* **Checklist:**
+  * [ ] Implementar a model `Categoria.php` e `CategoriasController.php`
+  * [ ] Desenvolver a tela de Categorias e modal de confirmação de exclusão
+  * [ ] Validar a integridade histórica dos lançamentos no extrato
+
+### [ ] Fase 7 - Perfil e Segurança da Conta
+* **Status:** Pendente
+* **Progresso:** 0%
+* **Checklist:**
+  * [ ] Criar a tela/modal de alteração de senha de usuário autenticado
+  * [ ] Implementar `PerfilController.php` com validação de senha atual e nova senha alfanumérica
+  * [ ] Registrar alteração com sucesso em `logs/security.log`
+
+### [ ] Fase 8 - Testes Finais e Validação de Segurança
+* **Status:** Pendente
+* **Progresso:** 0%
+* **Checklist:**
+  * [ ] Executar auditoria de segurança contra SQLi, XSS e CSRF
+  * [ ] Validar o isolamento rigoroso de registros por usuário
+  * [ ] Verificar captura e supressão de mensagens de erros técnicos na tela

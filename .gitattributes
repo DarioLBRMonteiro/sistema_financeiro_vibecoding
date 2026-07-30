@@ -1,0 +1,24 @@
+# Comportamento padrão para normalização de finais de linha
+* text=auto
+
+# Arquivos de código e estruturados como texto
+*.php text
+*.js text
+*.css text
+*.html text
+*.sql text
+*.json text
+*.md text
+*.htaccess text
+
+# Arquivos de mídia e binários (tratados como binários estritos)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary

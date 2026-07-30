@@ -1,0 +1,31 @@
+# Arquivos de Configuração com Segredos
+/config/config.php
+
+# Logs do sistema e simulações
+/logs/*.log
+
+# Arquivos do Sistema Operacional
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Configurações de Editores / IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Arquivos de ambiente local (caso sejam criados no futuro)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Backups e dumps temporários de banco de dados
+/database/*.sql.bak
+/database/*.sql.zip
+/database/*.sql.gz
