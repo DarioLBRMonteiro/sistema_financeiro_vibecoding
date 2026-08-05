@@ -38,58 +38,28 @@ if ($requestUri !== '/' && $requestUri[0] !== '/') {
     $requestUri = '/' . $requestUri;
 }
 
-// Roteador inicial simples para homologação da infraestrutura
-if ($requestUri === '/' || $requestUri === '/login') {
-    header('Content-Type: text/html; charset=UTF-8');
-    ?>
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <title><?php echo Sanitizer::e($config['app_name']); ?> - Infraestrutura</title>
-        <link rel="icon" href="<?php echo Sanitizer::e($config['app_url']); ?>/assets/images/cursoemvideo-logo.ico" type="image/x-icon">
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f7f9fb;
-                color: #191c1e;
-                margin: 40px;
-                line-height: 1.6;
-            }
-            .container {
-                max-width: 600px;
-                background: #ffffff;
-                padding: 30px;
-                border-radius: 4px;
-                border: 1px solid #e0e3e5;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            }
-            h1 {
-                color: #0f2d7b;
-                margin-top: 0;
-            }
-            .badge {
-                display: inline-block;
-                background-color: #10b981;
-                color: #ffffff;
-                padding: 4px 8px;
-                border-radius: 100px;
-                font-size: 12px;
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1><?php echo Sanitizer::e($config['app_name']); ?></h1>
-            <p><strong>Ambiente:</strong> <span class="badge"><?php echo Sanitizer::e($config['env']); ?></span></p>
-            <hr>
-            <p>A infraestrutura de base e estrutura física de pastas foram criadas e carregadas com sucesso!</p>
-            <p>O Front Controller está ativo e interceptando as requisições de forma segura.</p>
-        </div>
-    </body>
-    </html>
-    <?php
+// Roteador
+if ($requestUri === '/') {
+    if (Auth::check()) {
+        Auth::redirect('/dashboard');
+    } else {
+        Auth::redirect('/login');
+    }
+} elseif ($requestUri === '/login') {
+    require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
+    (new AuthController())->login();
+} elseif ($requestUri === '/logout') {
+    require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
+    (new AuthController())->logout();
+} elseif ($requestUri === '/cadastro') {
+    require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
+    (new AuthController())->cadastro();
+} elseif ($requestUri === '/recuperar-senha') {
+    require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
+    (new AuthController())->recuperarSenha();
+} elseif ($requestUri === '/redefinir-senha') {
+    require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
+    (new AuthController())->redefinirSenha();
 } else {
     http_response_code(404);
     echo "<h1>404 Not Found</h1>";
