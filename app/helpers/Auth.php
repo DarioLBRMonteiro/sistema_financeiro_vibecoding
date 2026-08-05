@@ -58,7 +58,7 @@ class Auth {
      */
     public static function redirect(string $path): void {
         $configPath = dirname(dirname(__DIR__)) . '/config/config.php';
-        $appUrl = 'http://localhost/sistema_financeiro';
+        $appUrl = 'http://localhost:8080/sistema_financeiro';
         if (file_exists($configPath)) {
             $config = require $configPath;
             $appUrl = $config['app_url'] ?? $appUrl;
