@@ -2,10 +2,10 @@
 
 Este documento registra o progresso atual do desenvolvimento do sistema, detalhando o estado de cada fase e indicando as próximas ações.
 
-* **Última Atualização:** 05/08/2026 19:58 (Local)
+* **Última Atualização:** 13/08/2026 23:02 (Local)
 * **Controle de Versão (Git e GitHub):** Inicializado local e remotamente. Commit inicial e *push* para o GitHub realizados com sucesso. Backup seguro estabelecido.
-* **Fase Atual:** Fase 3 - Módulo de Autenticação e Sessão (Concluída)
-* **Próximo Passo Recomendado:** Iniciar em um novo chat o desenvolvimento da Fase 4 (Dashboard e Extrato), seguindo as instruções do plano.
+* **Fase Atual:** Fase 4 - Dashboard e Extrato (Leitura) (Concluída)
+* **Próximo Passo Recomendado:** Iniciar em um novo chat o desenvolvimento da Fase 5 (CRUD de Lançamentos e Modais), seguindo as instruções do plano.
 
 ---
 
@@ -45,14 +45,14 @@ Este documento registra o progresso atual do desenvolvimento do sistema, detalha
   * [x] Criar as telas de login, cadastro, recuperação e redefinição de senha
   * [x] Configurar logs em `logs/security.log` e e-mails fictícios em `logs/email_simulation.log`
 
-### [ ] Fase 4 - Dashboard e Extrato (Leitura)
-* **Status:** Pendente
-* **Progresso:** 0%
+### [x] Fase 4 - Dashboard e Extrato (Leitura)
+* **Status:** Concluído
+* **Progresso:** 100%
 * **Checklist:**
-  * [ ] Criar a model `Lancamento.php` (métodos de leitura)
-  * [ ] Implementar `DashboardController.php` e a tela de Dashboard com KPI cards e alerta de saldo negativo
-  * [ ] Renderizar gráficos Chart.js locais no painel
-  * [ ] Desenvolver a tela de Extrato com busca textual e filtros de data e categoria
+  * [x] Criar a model `Lancamento.php` (métodos de leitura)
+  * [x] Implementar `DashboardController.php` e a tela de Dashboard com KPI cards e alerta de saldo negativo
+  * [x] Renderizar gráficos Chart.js locais no painel
+  * [x] Desenvolver a tela de Extrato com busca textual e filtros de data e categoria
 
 ### [ ] Fase 5 - CRUD de Lançamentos e Modais
 * **Status:** Pendente

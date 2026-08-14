@@ -60,6 +60,12 @@ if ($requestUri === '/') {
 } elseif ($requestUri === '/redefinir-senha') {
     require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
     (new AuthController())->redefinirSenha();
+} elseif ($requestUri === '/dashboard') {
+    require_once dirname(__DIR__) . '/app/controllers/DashboardController.php';
+    (new DashboardController())->index();
+} elseif ($requestUri === '/extrato') {
+    require_once dirname(__DIR__) . '/app/controllers/LancamentosController.php';
+    (new LancamentosController())->extrato();
 } else {
     http_response_code(404);
     echo "<h1>404 Not Found</h1>";

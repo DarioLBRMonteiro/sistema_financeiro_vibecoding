@@ -22,3 +22,10 @@ Ao encontrar e solucionar qualquer erro relevante no sistema, faça um novo regi
 ## Histórico de Erros
 
 *(Nenhum erro registrado até o momento.)*
+
+## 13/08/2026 - Call to undefined method Auth::requireLogin()
+
+- Sintoma: Erro fatal "Call to undefined method Auth::requireLogin()" exibido em tela ao acessar a rota do Dashboard (/dashboard).
+- Causa: O controller estava tentando chamar o método de restrição de acesso como `Auth::requireLogin()`, mas o ajudante `Auth.php` implementado na Fase 3 nomeou esse método como `Auth::requireAuth()`.
+- Solução aplicada: O método foi renomeado de `Auth::requireLogin()` para `Auth::requireAuth()` dentro de `DashboardController.php` e `LancamentosController.php`.
+- Como evitar no futuro: Sempre consultar a implementação real da classe base antes de presumir o nome de um método, garantindo assim que a assinatura e o nome estejam de acordo com as fases anteriores.
