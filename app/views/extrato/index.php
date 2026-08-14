@@ -24,7 +24,7 @@ $nomeMesAtual = $mesesNomes[$mes];
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="headline-lg m-0" style="color: var(--gfs-primary);">Extrato</h1>
-    <button type="button" class="btn fw-semibold text-white" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);" data-bs-toggle="modal" data-bs-target="#novoLancamentoModal">
+    <button type="button" class="btn fw-semibold text-white btn-novo" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);" data-bs-toggle="modal" data-bs-target="#lancamentoModal">
         + Novo Lançamento
     </button>
 </div>
@@ -118,8 +118,23 @@ $nomeMesAtual = $mesesNomes[$mes];
                                     <?php echo $l['tipo'] === 'RECEITA' ? '+' : '-'; ?> R$ <?php echo number_format($l['valor'], 2, ',', '.'); ?>
                                 </td>
                                 <td class="text-end pe-4">
-                                    <button class="btn btn-sm btn-outline-secondary me-1" style="border-radius: var(--gfs-border-radius);" data-bs-toggle="modal" data-bs-target="#editarLancamentoModal">Editar</button>
-                                    <button class="btn btn-sm btn-outline-danger" style="border-radius: var(--gfs-border-radius);" data-bs-toggle="modal" data-bs-target="#excluirLancamentoModal">Excluir</button>
+                                    <button class="btn btn-sm btn-outline-secondary me-1 btn-editar" style="border-radius: var(--gfs-border-radius);" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#lancamentoModal"
+                                        data-id="<?php echo $l['id']; ?>"
+                                        data-descricao="<?php echo Sanitizer::e($l['descricao']); ?>"
+                                        data-valor="<?php echo Sanitizer::e($l['valor']); ?>"
+                                        data-data="<?php echo Sanitizer::e($l['data_movimentacao']); ?>"
+                                        data-tipo="<?php echo Sanitizer::e($l['tipo']); ?>"
+                                        data-categoria="<?php echo Sanitizer::e($l['categoria_id']); ?>"
+                                        data-status="<?php echo Sanitizer::e($l['status']); ?>"
+                                        data-forma="<?php echo Sanitizer::e($l['forma_pagamento']); ?>">Editar</button>
+                                    <button class="btn btn-sm btn-outline-danger btn-excluir" style="border-radius: var(--gfs-border-radius);" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#excluirLancamentoModal"
+                                        data-id="<?php echo $l['id']; ?>"
+                                        data-descricao="<?php echo Sanitizer::e($l['descricao']); ?>"
+                                        data-valor="<?php echo number_format($l['valor'], 2, ',', '.'); ?>">Excluir</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -130,50 +145,159 @@ $nomeMesAtual = $mesesNomes[$mes];
     </div>
 </div>
 
-<!-- Modais Dummy para Fase 5 -->
-<div class="modal fade" id="novoLancamentoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
+<!-- Modal Formulário Lançamento (Novo/Editar) -->
+<div class="modal fade" id="lancamentoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius: var(--gfs-border-radius-lg);">
-      <div class="modal-header border-bottom-0">
-        <h5 class="modal-title headline-md" style="color: var(--gfs-primary);">Novo Lançamento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body text-secondary body-md">O cadastro de lançamentos será implementado na Fase 5.</div>
-      <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
+      <form action="<?php echo Sanitizer::e($config['app_url']); ?>/lancamento/salvar" method="POST">
+        <input type="hidden" name="csrf_token" value="<?php echo CSRF::getToken(); ?>">
+        <input type="hidden" name="id" id="lanc_id" value="">
+        
+        <div class="modal-header border-bottom-0 pb-0">
+          <h5 class="modal-title headline-md" id="lancamentoModalTitle" style="color: var(--gfs-primary);">Novo Lançamento</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body pb-0">
+            <div class="mb-3 d-flex gap-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipo" id="tipoDespesa" value="DESPESA" checked required>
+                    <label class="form-check-label text-danger fw-semibold" for="tipoDespesa">Despesa</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipo" id="tipoReceita" value="RECEITA" required>
+                    <label class="form-check-label text-success fw-semibold" for="tipoReceita">Receita</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label label-md">Descrição</label>
+                <input type="text" name="descricao" id="lanc_descricao" class="form-control" maxlength="255" required style="border-radius: var(--gfs-border-radius);">
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label label-md">Valor (R$)</label>
+                    <input type="number" step="0.01" min="0.01" name="valor" id="lanc_valor" class="form-control" required style="border-radius: var(--gfs-border-radius);">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label label-md">Data</label>
+                    <input type="date" name="data_movimentacao" id="lanc_data" class="form-control" required style="border-radius: var(--gfs-border-radius);">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label label-md">Categoria</label>
+                <select name="categoria_id" id="lanc_categoria" class="form-select" required style="border-radius: var(--gfs-border-radius);">
+                    <option value="">Selecione...</option>
+                    <?php foreach ($categorias as $cat): ?>
+                        <option value="<?php echo Sanitizer::e($cat['id']); ?>"><?php echo Sanitizer::e($cat['nome']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label label-md">Forma de Pagamento</label>
+                    <select name="forma_pagamento" id="lanc_forma" class="form-select" required style="border-radius: var(--gfs-border-radius);">
+                        <option value="DINHEIRO">Dinheiro</option>
+                        <option value="PIX">Pix</option>
+                        <option value="DEBITO">Cartão de Débito</option>
+                        <option value="CREDITO">Cartão de Crédito</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label label-md">Status</label>
+                    <select name="status" id="lanc_status" class="form-select" required style="border-radius: var(--gfs-border-radius);">
+                        <option value="PAGO">Pago</option>
+                        <option value="PENDENTE">Pendente</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer border-top-0 pt-0">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="border-radius: var(--gfs-border-radius);">Cancelar</button>
+          <button type="submit" class="btn text-white px-4" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);">Salvar</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="editarLancamentoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" style="border-radius: var(--gfs-border-radius-lg);">
-      <div class="modal-header border-bottom-0">
-        <h5 class="modal-title headline-md" style="color: var(--gfs-primary);">Editar Lançamento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body text-secondary body-md">A edição de lançamentos será implementada na Fase 5.</div>
-      <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+<!-- Modal Confirmação de Exclusão -->
 <div class="modal fade" id="excluirLancamentoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius: var(--gfs-border-radius-lg);">
-      <div class="modal-header border-bottom-0">
-        <h5 class="modal-title headline-md text-danger">Excluir Lançamento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body text-secondary body-md">A exclusão lógica será implementada na Fase 5.</div>
-      <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
+      <form action="<?php echo Sanitizer::e($config['app_url']); ?>/lancamento/excluir" method="POST">
+        <input type="hidden" name="csrf_token" value="<?php echo CSRF::getToken(); ?>">
+        <input type="hidden" name="id" id="excluir_id" value="">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title headline-md text-danger">Confirmar Exclusão</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body body-md text-secondary">
+          Tem certeza de que deseja excluir o lançamento '<strong id="excluir_descricao"></strong>' no valor de R$ <strong id="excluir_valor"></strong>? 
+          <br><br>Esta ação moverá o registro para o histórico excluído.
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="border-radius: var(--gfs-border-radius);">Cancelar</button>
+          <button type="submit" class="btn btn-danger" style="border-radius: var(--gfs-border-radius);">Confirmar Exclusão</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Configura modal de lançamento (Novo vs Editar)
+    const btnNovo = document.querySelector('.btn-novo');
+    if(btnNovo) {
+        btnNovo.addEventListener('click', () => {
+            document.getElementById('lancamentoModalTitle').innerText = 'Novo Lançamento';
+            document.getElementById('lanc_id').value = '';
+            document.getElementById('lanc_descricao').value = '';
+            document.getElementById('lanc_valor').value = '';
+            document.getElementById('lanc_data').value = '<?php echo date('Y-m-d'); ?>';
+            document.getElementById('lanc_categoria').value = '';
+            document.getElementById('tipoDespesa').checked = true;
+            document.getElementById('lanc_status').value = 'PAGO';
+            document.getElementById('lanc_forma').value = 'DINHEIRO';
+        });
+    }
+
+    const btnsEditar = document.querySelectorAll('.btn-editar');
+    btnsEditar.forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('lancamentoModalTitle').innerText = 'Editar Lançamento';
+            document.getElementById('lanc_id').value = btn.getAttribute('data-id');
+            document.getElementById('lanc_descricao').value = btn.getAttribute('data-descricao');
+            document.getElementById('lanc_valor').value = btn.getAttribute('data-valor');
+            document.getElementById('lanc_data').value = btn.getAttribute('data-data');
+            document.getElementById('lanc_categoria').value = btn.getAttribute('data-categoria');
+            
+            const tipo = btn.getAttribute('data-tipo');
+            if(tipo === 'RECEITA') {
+                document.getElementById('tipoReceita').checked = true;
+            } else {
+                document.getElementById('tipoDespesa').checked = true;
+            }
+            
+            document.getElementById('lanc_status').value = btn.getAttribute('data-status');
+            document.getElementById('lanc_forma').value = btn.getAttribute('data-forma');
+        });
+    });
+
+    // Configura modal de exclusão
+    const btnsExcluir = document.querySelectorAll('.btn-excluir');
+    btnsExcluir.forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('excluir_id').value = btn.getAttribute('data-id');
+            document.getElementById('excluir_descricao').innerText = btn.getAttribute('data-descricao');
+            document.getElementById('excluir_valor').innerText = btn.getAttribute('data-valor');
+        });
+    });
+});
+</script>
 
 <?php require_once dirname(__DIR__) . '/templates/footer.php'; ?>

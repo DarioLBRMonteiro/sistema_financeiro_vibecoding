@@ -66,6 +66,12 @@ if ($requestUri === '/') {
 } elseif ($requestUri === '/extrato') {
     require_once dirname(__DIR__) . '/app/controllers/LancamentosController.php';
     (new LancamentosController())->extrato();
+} elseif ($requestUri === '/lancamento/salvar') {
+    require_once dirname(__DIR__) . '/app/controllers/LancamentosController.php';
+    (new LancamentosController())->salvar();
+} elseif ($requestUri === '/lancamento/excluir') {
+    require_once dirname(__DIR__) . '/app/controllers/LancamentosController.php';
+    (new LancamentosController())->excluir();
 } else {
     http_response_code(404);
     echo "<h1>404 Not Found</h1>";

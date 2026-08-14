@@ -4,8 +4,8 @@ Este documento registra o progresso atual do desenvolvimento do sistema, detalha
 
 * **Última Atualização:** 13/08/2026 23:02 (Local)
 * **Controle de Versão (Git e GitHub):** Inicializado local e remotamente. Commit inicial e *push* para o GitHub realizados com sucesso. Backup seguro estabelecido.
-* **Fase Atual:** Fase 4 - Dashboard e Extrato (Leitura) (Concluída)
-* **Próximo Passo Recomendado:** Iniciar em um novo chat o desenvolvimento da Fase 5 (CRUD de Lançamentos e Modais), seguindo as instruções do plano.
+* **Fase Atual:** Fase 5 - CRUD de Lançamentos e Modais (Concluída)
+* **Próximo Passo Recomendado:** Iniciar em um novo chat o desenvolvimento da Fase 6 (Categorias Personalizadas e Exclusão com Modal), seguindo as instruções do plano.
 
 ---
 
@@ -54,13 +54,13 @@ Este documento registra o progresso atual do desenvolvimento do sistema, detalha
   * [x] Renderizar gráficos Chart.js locais no painel
   * [x] Desenvolver a tela de Extrato com busca textual e filtros de data e categoria
 
-### [ ] Fase 5 - CRUD de Lançamentos e Modais
-* **Status:** Pendente
-* **Progresso:** 0%
+### [x] Fase 5 - CRUD de Lançamentos e Modais
+* **Status:** Concluído
+* **Progresso:** 100%
 * **Checklist:**
-  * [ ] Implementar métodos de mutação de lançamentos em `Lancamento.php` e `LancamentosController.php`
-  * [ ] Desenvolver os modais de cadastro e edição de lançamentos
-  * [ ] Desenvolver o modal de confirmação de exclusão lógica
+  * [x] Implementar métodos de mutação de lançamentos em `Lancamento.php` e `LancamentosController.php`
+  * [x] Desenvolver os modais de cadastro e edição de lançamentos
+  * [x] Desenvolver o modal de confirmação de exclusão lógica
 
 ### [ ] Fase 6 - Categorias Personalizadas e Exclusão com Modal
 * **Status:** Pendente

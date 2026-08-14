@@ -78,7 +78,7 @@ class Lancamento {
         $sql = "
             SELECT 
                 l.id, l.descricao, l.valor, l.data_movimentacao, 
-                l.tipo, l.status, l.forma_pagamento,
+                l.tipo, l.status, l.forma_pagamento, l.categoria_id,
                 c.nome AS categoria_nome
             FROM lancamentos l
             LEFT JOIN categorias c ON l.categoria_id = c.id
@@ -119,5 +119,78 @@ class Lancamento {
         ");
         $stmt->execute([':usuario_id' => $usuarioId]);
         return $stmt->fetchAll();
+    }
+
+    public static function inserir(PDO $pdo, array $dados): bool {
+        $stmt = $pdo->prepare("
+            INSERT INTO lancamentos 
+            (usuario_id, categoria_id, descricao, valor, data_movimentacao, tipo, status, forma_pagamento) 
+            VALUES 
+            (:usuario_id, :categoria_id, :descricao, :valor, :data_movimentacao, :tipo, :status, :forma_pagamento)
+        ");
+        return $stmt->execute([
+            ':usuario_id' => $dados['usuario_id'],
+            ':categoria_id' => $dados['categoria_id'],
+            ':descricao' => $dados['descricao'],
+            ':valor' => $dados['valor'],
+            ':data_movimentacao' => $dados['data_movimentacao'],
+            ':tipo' => $dados['tipo'],
+            ':status' => $dados['status'],
+            ':forma_pagamento' => $dados['forma_pagamento']
+        ]);
+    }
+
+    public static function atualizar(PDO $pdo, array $dados): bool {
+        $stmt = $pdo->prepare("
+            UPDATE lancamentos 
+            SET categoria_id = :categoria_id, 
+                descricao = :descricao, 
+                valor = :valor, 
+                data_movimentacao = :data_movimentacao, 
+                tipo = :tipo, 
+                status = :status, 
+                forma_pagamento = :forma_pagamento 
+            WHERE id = :id 
+              AND usuario_id = :usuario_id
+        ");
+        return $stmt->execute([
+            ':categoria_id' => $dados['categoria_id'],
+            ':descricao' => $dados['descricao'],
+            ':valor' => $dados['valor'],
+            ':data_movimentacao' => $dados['data_movimentacao'],
+            ':tipo' => $dados['tipo'],
+            ':status' => $dados['status'],
+            ':forma_pagamento' => $dados['forma_pagamento'],
+            ':id' => $dados['id'],
+            ':usuario_id' => $dados['usuario_id']
+        ]);
+    }
+
+    public static function excluirLogicamente(PDO $pdo, int $id, int $usuarioId): bool {
+        $stmt = $pdo->prepare("
+            UPDATE lancamentos 
+            SET deleted_at = NOW() 
+            WHERE id = :id 
+              AND usuario_id = :usuario_id
+        ");
+        return $stmt->execute([
+            ':id' => $id,
+            ':usuario_id' => $usuarioId
+        ]);
+    }
+
+    public static function buscarPorId(PDO $pdo, int $id, int $usuarioId): ?array {
+        $stmt = $pdo->prepare("
+            SELECT * FROM lancamentos 
+            WHERE id = :id 
+              AND usuario_id = :usuario_id 
+              AND deleted_at IS NULL
+        ");
+        $stmt->execute([
+            ':id' => $id,
+            ':usuario_id' => $usuarioId
+        ]);
+        $result = $stmt->fetch();
+        return $result ?: null;
     }
 }
