@@ -24,7 +24,7 @@ $nomeMesAtual = $mesesNomes[$mes];
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="headline-lg m-0" style="color: var(--gfs-primary);">Extrato</h1>
-    <button type="button" class="btn fw-semibold text-white btn-novo" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);" data-bs-toggle="modal" data-bs-target="#lancamentoModal">
+    <button type="button" class="btn fw-semibold text-white btn-novo" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);">
         + Novo Lançamento
     </button>
 </div>
@@ -87,7 +87,7 @@ $nomeMesAtual = $mesesNomes[$mes];
                         <tr>
                             <td colspan="7" class="text-center py-5 text-secondary">
                                 Nenhum lançamento encontrado para o período ou filtros selecionados.<br>
-                                <button type="button" class="btn btn-link p-0 m-0 align-baseline" data-bs-toggle="modal" data-bs-target="#novoLancamentoModal">Cadastre um novo lançamento</button>
+                                <button type="button" class="btn btn-link p-0 m-0 align-baseline btn-novo">Cadastre um novo lançamento</button>
                             </td>
                         </tr>
                     <?php else: ?>
@@ -119,8 +119,6 @@ $nomeMesAtual = $mesesNomes[$mes];
                                 </td>
                                 <td class="text-end pe-4">
                                     <button class="btn btn-sm btn-outline-secondary me-1 btn-editar" style="border-radius: var(--gfs-border-radius);" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#lancamentoModal"
                                         data-id="<?php echo $l['id']; ?>"
                                         data-descricao="<?php echo Sanitizer::e($l['descricao']); ?>"
                                         data-valor="<?php echo Sanitizer::e($l['valor']); ?>"
@@ -130,8 +128,6 @@ $nomeMesAtual = $mesesNomes[$mes];
                                         data-status="<?php echo Sanitizer::e($l['status']); ?>"
                                         data-forma="<?php echo Sanitizer::e($l['forma_pagamento']); ?>">Editar</button>
                                     <button class="btn btn-sm btn-outline-danger btn-excluir" style="border-radius: var(--gfs-border-radius);" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#excluirLancamentoModal"
                                         data-id="<?php echo $l['id']; ?>"
                                         data-descricao="<?php echo Sanitizer::e($l['descricao']); ?>"
                                         data-valor="<?php echo number_format($l['valor'], 2, ',', '.'); ?>">Excluir</button>
@@ -250,51 +246,86 @@ $nomeMesAtual = $mesesNomes[$mes];
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Configura modal de lançamento (Novo vs Editar)
-    const btnNovo = document.querySelector('.btn-novo');
-    if(btnNovo) {
-        btnNovo.addEventListener('click', () => {
-            document.getElementById('lancamentoModalTitle').innerText = 'Novo Lançamento';
-            document.getElementById('lanc_id').value = '';
-            document.getElementById('lanc_descricao').value = '';
-            document.getElementById('lanc_valor').value = '';
-            document.getElementById('lanc_data').value = '<?php echo date('Y-m-d'); ?>';
-            document.getElementById('lanc_categoria').value = '';
-            document.getElementById('tipoDespesa').checked = true;
-            document.getElementById('lanc_status').value = 'PAGO';
-            document.getElementById('lanc_forma').value = 'DINHEIRO';
-        });
+    // Referências dos modais do Bootstrap
+    let modalLancamento = null;
+    let modalExcluir = null;
+    
+    if (typeof bootstrap !== 'undefined') {
+        modalLancamento = new bootstrap.Modal(document.getElementById('lancamentoModal'));
+        modalExcluir = new bootstrap.Modal(document.getElementById('excluirLancamentoModal'));
+    } else {
+        console.error('Bootstrap JS não está carregado.');
     }
+
+    // Configura modal de lançamento (Novo vs Editar)
+    const btnsNovo = document.querySelectorAll('.btn-novo');
+    btnsNovo.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            try {
+                document.getElementById('lancamentoModalTitle').innerText = 'Novo Lançamento';
+                document.getElementById('lanc_id').value = '';
+                document.getElementById('lanc_descricao').value = '';
+                document.getElementById('lanc_valor').value = '';
+                document.getElementById('lanc_data').value = '<?php echo date('Y-m-d'); ?>';
+                document.getElementById('lanc_categoria').value = '';
+                document.getElementById('tipoDespesa').checked = true;
+                document.getElementById('lanc_status').value = 'PAGO';
+                document.getElementById('lanc_forma').value = 'DINHEIRO';
+                
+                if(modalLancamento) modalLancamento.show();
+            } catch(error) {
+                console.error('Erro ao abrir Novo Lançamento:', error);
+                alert('Erro na interface: ' + error.message);
+            }
+        });
+    });
 
     const btnsEditar = document.querySelectorAll('.btn-editar');
     btnsEditar.forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('lancamentoModalTitle').innerText = 'Editar Lançamento';
-            document.getElementById('lanc_id').value = btn.getAttribute('data-id');
-            document.getElementById('lanc_descricao').value = btn.getAttribute('data-descricao');
-            document.getElementById('lanc_valor').value = btn.getAttribute('data-valor');
-            document.getElementById('lanc_data').value = btn.getAttribute('data-data');
-            document.getElementById('lanc_categoria').value = btn.getAttribute('data-categoria');
-            
-            const tipo = btn.getAttribute('data-tipo');
-            if(tipo === 'RECEITA') {
-                document.getElementById('tipoReceita').checked = true;
-            } else {
-                document.getElementById('tipoDespesa').checked = true;
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            try {
+                document.getElementById('lancamentoModalTitle').innerText = 'Editar Lançamento';
+                document.getElementById('lanc_id').value = btn.getAttribute('data-id');
+                document.getElementById('lanc_descricao').value = btn.getAttribute('data-descricao');
+                document.getElementById('lanc_valor').value = btn.getAttribute('data-valor');
+                document.getElementById('lanc_data').value = btn.getAttribute('data-data');
+                document.getElementById('lanc_categoria').value = btn.getAttribute('data-categoria');
+                
+                const tipo = btn.getAttribute('data-tipo');
+                if(tipo === 'RECEITA') {
+                    document.getElementById('tipoReceita').checked = true;
+                } else {
+                    document.getElementById('tipoDespesa').checked = true;
+                }
+                
+                document.getElementById('lanc_status').value = btn.getAttribute('data-status');
+                document.getElementById('lanc_forma').value = btn.getAttribute('data-forma');
+                
+                if(modalLancamento) modalLancamento.show();
+            } catch (error) {
+                console.error('Erro ao abrir Editar:', error);
+                alert('Erro na interface: ' + error.message);
             }
-            
-            document.getElementById('lanc_status').value = btn.getAttribute('data-status');
-            document.getElementById('lanc_forma').value = btn.getAttribute('data-forma');
         });
     });
 
     // Configura modal de exclusão
     const btnsExcluir = document.querySelectorAll('.btn-excluir');
     btnsExcluir.forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('excluir_id').value = btn.getAttribute('data-id');
-            document.getElementById('excluir_descricao').innerText = btn.getAttribute('data-descricao');
-            document.getElementById('excluir_valor').innerText = btn.getAttribute('data-valor');
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            try {
+                document.getElementById('excluir_id').value = btn.getAttribute('data-id');
+                document.getElementById('excluir_descricao').innerText = btn.getAttribute('data-descricao');
+                document.getElementById('excluir_valor').innerText = btn.getAttribute('data-valor');
+                
+                if(modalExcluir) modalExcluir.show();
+            } catch(error) {
+                console.error('Erro ao abrir Excluir:', error);
+                alert('Erro na interface: ' + error.message);
+            }
         });
     });
 });
