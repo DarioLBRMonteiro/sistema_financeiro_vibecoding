@@ -72,6 +72,15 @@ if ($requestUri === '/') {
 } elseif ($requestUri === '/lancamento/excluir') {
     require_once dirname(__DIR__) . '/app/controllers/LancamentosController.php';
     (new LancamentosController())->excluir();
+} elseif ($requestUri === '/categorias') {
+    require_once dirname(__DIR__) . '/app/controllers/CategoriasController.php';
+    (new CategoriasController())->index();
+} elseif ($requestUri === '/categoria/salvar') {
+    require_once dirname(__DIR__) . '/app/controllers/CategoriasController.php';
+    (new CategoriasController())->salvar();
+} elseif ($requestUri === '/categoria/excluir') {
+    require_once dirname(__DIR__) . '/app/controllers/CategoriasController.php';
+    (new CategoriasController())->excluir();
 } else {
     http_response_code(404);
     echo "<h1>404 Not Found</h1>";

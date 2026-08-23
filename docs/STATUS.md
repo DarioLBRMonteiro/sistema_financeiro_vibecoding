@@ -4,8 +4,8 @@ Este documento registra o progresso atual do desenvolvimento do sistema, detalha
 
 * **Última Atualização:** 13/08/2026 23:02 (Local)
 * **Controle de Versão (Git e GitHub):** Inicializado local e remotamente. Commit inicial e *push* para o GitHub realizados com sucesso. Backup seguro estabelecido.
-* **Fase Atual:** Fase 5 - CRUD de Lançamentos e Modais (Concluída)
-* **Próximo Passo Recomendado:** Iniciar em um novo chat o desenvolvimento da Fase 6 (Categorias Personalizadas e Exclusão com Modal), seguindo as instruções do plano.
+* **Fase Atual:** Fase 6 - Categorias Personalizadas e Exclusão com Modal (Concluída)
+* **Próximo Passo Recomendado:** Iniciar em um novo chat o desenvolvimento da Fase 7 (Perfil e Segurança da Conta), seguindo as instruções do plano.
 
 ---
 
@@ -62,13 +62,13 @@ Este documento registra o progresso atual do desenvolvimento do sistema, detalha
   * [x] Desenvolver os modais de cadastro e edição de lançamentos
   * [x] Desenvolver o modal de confirmação de exclusão lógica
 
-### [ ] Fase 6 - Categorias Personalizadas e Exclusão com Modal
-* **Status:** Pendente
-* **Progresso:** 0%
+### [x] Fase 6 - Categorias Personalizadas e Exclusão com Modal
+* **Status:** Concluído
+* **Progresso:** 100%
 * **Checklist:**
-  * [ ] Implementar a model `Categoria.php` e `CategoriasController.php`
-  * [ ] Desenvolver a tela de Categorias e modal de confirmação de exclusão
-  * [ ] Validar a integridade histórica dos lançamentos no extrato
+  * [x] Implementar a model `Categoria.php` e `CategoriasController.php`
+  * [x] Desenvolver a tela de Categorias e modal de confirmação de exclusão
+  * [x] Validar a integridade histórica dos lançamentos no extrato
 
 ### [ ] Fase 7 - Perfil e Segurança da Conta
 * **Status:** Pendente
