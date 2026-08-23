@@ -21,7 +21,12 @@ Ao encontrar e solucionar qualquer erro relevante no sistema, faça um novo regi
 
 ## Histórico de Erros
 
-*(Nenhum erro registrado até o momento.)*
+## 23/08/2026 - Call to undefined method Database::getInstance()
+
+- Sintoma: Erro fatal "Call to undefined method Database::getInstance()" na tela ao acessar a rota de Categorias (/categorias).
+- Causa: O model `Categoria.php` estava tentando instanciar a conexão com o banco de dados utilizando o método `Database::getInstance()`, mas a classe base de configuração do projeto definiu o método como `Database::getConnection()`.
+- Solução aplicada: Alteração da chamada de `Database::getInstance()` para `Database::getConnection()` no construtor de `Categoria.php`.
+- Como evitar no futuro: Verificar as assinaturas de métodos nas classes de configuração de infraestrutura (como banco de dados e sessão) antes de utilizá-los em novas models, não presumindo nomes genéricos comuns como `getInstance()`.
 
 ## 13/08/2026 - Call to undefined method Auth::requireLogin()
 

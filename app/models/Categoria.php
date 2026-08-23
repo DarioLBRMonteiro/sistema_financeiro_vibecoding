@@ -9,7 +9,7 @@ class Categoria
 
     public function __construct()
     {
-        $this->pdo = Database::getInstance();
+        $this->pdo = Database::getConnection();
     }
 
     /**
