@@ -27,9 +27,9 @@ $isSaldoNegativo = $resumo['saldo'] < 0;
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="headline-lg m-0" style="color: var(--gfs-primary);">Dashboard</h1>
     <div>
-        <button type="button" class="btn fw-semibold text-white me-2" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);" data-bs-toggle="modal" data-bs-target="#novoLancamentoModal">
+        <a href="<?php echo Sanitizer::e($config['app_url']); ?>/extrato" class="btn fw-semibold text-white me-2" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);">
             + Novo Lançamento
-        </button>
+        </a>
         <a href="<?php echo Sanitizer::e($config['app_url']); ?>/extrato?mes=<?php echo $mes; ?>&ano=<?php echo $ano; ?>" class="btn btn-outline-secondary fw-semibold" style="border-radius: var(--gfs-border-radius); border-color: var(--gfs-primary); color: var(--gfs-primary);">
             Ver Extrato Completo
         </a>
@@ -115,23 +115,7 @@ $isSaldoNegativo = $resumo['saldo'] < 0;
     </div>
 </div>
 
-<!-- Modal Dummy para Fase 5 -->
-<div class="modal fade" id="novoLancamentoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" style="border-radius: var(--gfs-border-radius-lg);">
-      <div class="modal-header border-bottom-0">
-        <h5 class="modal-title headline-md" style="color: var(--gfs-primary);">Novo Lançamento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body text-secondary body-md">
-        O cadastro de lançamentos será implementado na Fase 5.
-      </div>
-      <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <script src="<?php echo Sanitizer::e($config['app_url']); ?>/assets/js/chart.umd.js"></script>
 <script>
