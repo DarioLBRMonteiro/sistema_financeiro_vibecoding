@@ -66,4 +66,28 @@ class Usuario {
         $stmt->execute();
         return $stmt->rowCount() > 0;
     }
+    /**
+     * Busca um usuário pelo ID
+     */
+    public static function findById(int $id): ?array {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("SELECT * FROM usuarios WHERE id = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $user = $stmt->fetch();
+        return $user ?: null;
+    }
+
+    /**
+     * Atualiza a senha de um usuário logado
+     */
+    public static function updatePassword(int $id, string $novaSenha): bool {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("UPDATE usuarios SET senha = :senha WHERE id = :id");
+        $hash = password_hash($novaSenha, PASSWORD_BCRYPT);
+        $stmt->bindValue(':senha', $hash, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+    }
 }

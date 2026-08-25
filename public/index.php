@@ -81,6 +81,9 @@ if ($requestUri === '/') {
 } elseif ($requestUri === '/categoria/excluir') {
     require_once dirname(__DIR__) . '/app/controllers/CategoriasController.php';
     (new CategoriasController())->excluir();
+} elseif ($requestUri === '/perfil/senha') {
+    require_once dirname(__DIR__) . '/app/controllers/PerfilController.php';
+    (new PerfilController())->senha();
 } else {
     http_response_code(404);
     echo "<h1>404 Not Found</h1>";
