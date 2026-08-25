@@ -41,10 +41,10 @@ require_once dirname(__DIR__) . '/templates/header.php';
                     </div>
 
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn text-white fw-semibold" style="background-color: var(--gfs-primary); border-radius: var(--gfs-border-radius);">
+                        <button type="submit" class="btn btn-primary fw-semibold">
                             Salvar Nova Senha
                         </button>
-                        <a href="<?php echo Sanitizer::e($config['app_url']); ?>/dashboard" class="btn btn-outline-secondary fw-semibold" style="border-radius: var(--gfs-border-radius);">
+                        <a href="<?php echo Sanitizer::e($config['app_url']); ?>/dashboard" class="btn btn-secondary fw-semibold">
                             Cancelar
                         </a>
                     </div>
