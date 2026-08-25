@@ -20,6 +20,13 @@ Ao encontrar e solucionar qualquer erro relevante no sistema, faça um novo regi
 ---
 
 ## Histórico de Erros
+                    
+## 24/08/2026 - Nome do usuário não renderiza no Dashboard
+
+- Sintoma: Na tela "Dashboard", o nome do usuário logado não aparecia, mostrando sempre o fallback genérico "Olá, Usuário".
+- Causa: Divergência na chave da sessão. O arquivo `AuthController.php` armazenava o nome do usuário na sessão como `$_SESSION['user_nome']`, mas a view de cabeçalho (`header.php`) tentava recuperar `$_SESSION['user_name']`.
+- Solução aplicada: Alterada a chave na view de cabeçalho (`header.php`) para acessar corretamente `$_SESSION['user_nome']`.
+- Como evitar no futuro: Padronizar e documentar chaves de sessão e variáveis globais, ou centralizar a obtenção desses dados de autenticação em um método auxiliar (ex: `Auth::user()->nome`).
 
 ## 23/08/2026 - Call to undefined method Database::getInstance()
 

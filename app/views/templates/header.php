@@ -24,7 +24,7 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
             </a>
             <div class="ms-auto d-flex align-items-center">
                 <span class="me-3 fw-medium text-secondary d-none d-sm-inline">
-                    Olá, <?php echo Sanitizer::e($_SESSION['user_name'] ?? 'Usuário'); ?>
+                    Olá, <?php echo Sanitizer::e($_SESSION['user_nome'] ?? 'Usuário'); ?>
                 </span>
                 <div class="dropdown">
                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: var(--gfs-border-radius); border-color: var(--gfs-outline-variant);">
