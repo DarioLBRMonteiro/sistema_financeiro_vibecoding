@@ -2,9 +2,9 @@
 
 Este documento registra o progresso atual do desenvolvimento do sistema, detalhando o estado de cada fase e indicando as próximas ações.
 
-* **Última Atualização:** 08/09/2026 17:36 (Local)
-* **Controle de Versão (Git e GitHub):** Inicializado local e remotamente. Documentação de manutenção criada e commitada.
-* **Fase Atual:** Fase 9 - Documentação Final de Manutenção (Concluída)
+* **Última Atualização:** 08/09/2026 18:03 (Local)
+* **Controle de Versão (Git e GitHub):** Inicializado local e remotamente. Documentação de manutenção revisada e expandida.
+* **Fase Atual:** Fase 9 - Documentação Final de Manutenção (Concluída e Revisada)
 * **Próximo Passo Recomendado:** chat novo + prompt do passo 7, se você quiser publicar o sistema na Hostnet.
 
 ---
@@ -93,6 +93,7 @@ Este documento registra o progresso atual do desenvolvimento do sistema, detalha
 * **Progresso:** 100%
 * **Checklist:**
   * [x] Criar guia de manutenção e evolução em `docs/MANUTENCAO.md`
+  * [x] Revisar e expandir `docs/MANUTENCAO.md` cobrindo todos os 12 tópicos com guias práticos e código de exemplo
   * [x] Criar guia de orientação para o usuário em `docs/COMO-PEDIR-MUDANCAS.md`
   * [x] Transicionar o arquivo de contexto `AGENTS.md` para o Modo Manutenção
   * [x] Registrar status final e commits no Git
