@@ -30,8 +30,8 @@
                     <h5 class="card-title mb-0">Nova Categoria Personalizada</h5>
                 </div>
                 <div class="card-body">
-                    <form action="<?php echo $config['app_url']; ?>/categoria/salvar" method="POST">
-                        <input type="hidden" name="csrf_token" value="<?php echo CSRF::getToken(); ?>">
+                    <form action="<?php echo Sanitizer::e($config['app_url']); ?>/categoria/salvar" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?php echo Sanitizer::e(CSRF::getToken()); ?>">
                         
                         <div class="mb-3">
                             <label for="nome" class="form-label form-label-sm">Nome da Categoria</label>
@@ -145,8 +145,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <form action="<?php echo $config['app_url']; ?>/categoria/excluir" method="POST" class="m-0 p-0">
-                    <input type="hidden" name="csrf_token" value="<?php echo CSRF::getToken(); ?>">
+                <form action="<?php echo Sanitizer::e($config['app_url']); ?>/categoria/excluir" method="POST" class="m-0 p-0">
+                    <input type="hidden" name="csrf_token" value="<?php echo Sanitizer::e(CSRF::getToken()); ?>">
                     <input type="hidden" name="id" id="excluirCategoriaId" value="">
                     <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
                 </form>

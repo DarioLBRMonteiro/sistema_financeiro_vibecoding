@@ -20,7 +20,14 @@ Ao encontrar e solucionar qualquer erro relevante no sistema, faça um novo regi
 ---
 
 ## Histórico de Erros
-                    
+
+## 08/09/2026 - Call to undefined method Logger::error() / Logger::security()
+
+- Sintoma: Erro fatal "Call to undefined method Logger::error()" ao ocorrer exceção ou validação no controller de Categorias (/categorias).
+- Causa: O controller `CategoriasController.php` invocava os métodos `Logger::error()` e `Logger::security()`, porém o helper `Logger.php` define os métodos estáticos como `Logger::logError()` e `Logger::logSecurity()`.
+- Solução aplicada: Atualizadas todas as chamadas em `CategoriasController.php` para utilizar `Logger::logError()` e `Logger::logSecurity()`.
+- Como evitar no futuro: Conferir a assinatura exata dos métodos de classes auxiliares e helpers antes da utilização nos controllers e views.
+
 ## 24/08/2026 - Nome do usuário não renderiza no Dashboard
 
 - Sintoma: Na tela "Dashboard", o nome do usuário logado não aparecia, mostrando sempre o fallback genérico "Olá, Usuário".

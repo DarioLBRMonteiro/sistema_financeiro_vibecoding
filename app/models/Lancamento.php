@@ -94,8 +94,9 @@ class Lancamento {
         ];
 
         if ($busca !== '') {
+            $buscaEscaped = addcslashes($busca, '%_\\');
             $sql .= " AND l.descricao LIKE :busca";
-            $params[':busca'] = '%' . $busca . '%';
+            $params[':busca'] = '%' . $buscaEscaped . '%';
         }
 
         if ($categoriaId !== '') {

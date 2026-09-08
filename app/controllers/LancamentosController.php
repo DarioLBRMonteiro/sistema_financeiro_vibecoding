@@ -17,7 +17,7 @@ class LancamentosController {
         if ($ano < 2000 || $ano > 2100) $ano = (int)date('Y');
 
         $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
-        $categoriaId = isset($_GET['categoria_id']) ? trim($_GET['categoria_id']) : '';
+        $categoriaId = isset($_GET['categoria_id']) && filter_var($_GET['categoria_id'], FILTER_VALIDATE_INT) !== false ? (string)(int)$_GET['categoria_id'] : '';
 
         $lancamentos = Lancamento::buscarExtrato($pdo, $usuarioId, $mes, $ano, $busca, $categoriaId);
         $categorias = Lancamento::getCategoriasDisponiveisFiltro($pdo, $usuarioId);
@@ -50,38 +50,46 @@ class LancamentosController {
         $formaPagamento = trim($_POST['forma_pagamento'] ?? '');
 
         if (empty($descricao) || mb_strlen($descricao) > 255) {
+            http_response_code(400);
             die('A descrição é obrigatória (máx. 255 caracteres).');
         }
 
         if (!is_numeric($valor) || $valor <= 0) {
+            http_response_code(400);
             die('O valor deve ser um número positivo maior que zero.');
         }
 
         $d = DateTime::createFromFormat('Y-m-d', $dataMovimentacao);
         if (!$d || $d->format('Y-m-d') !== $dataMovimentacao) {
+            http_response_code(400);
             die('Data inválida.');
         }
 
         if (!in_array($tipo, ['RECEITA', 'DESPESA'], true)) {
+            http_response_code(400);
             die('Tipo de lançamento inválido.');
         }
 
         // Validar categoria_id
         if (!$categoriaId) {
+            http_response_code(400);
             die('Categoria inválida.');
         }
         
         $stmtCat = $pdo->prepare("SELECT id FROM categorias WHERE id = :id AND (usuario_id IS NULL OR (usuario_id = :usuario_id AND deleted_at IS NULL))");
         $stmtCat->execute([':id' => $categoriaId, ':usuario_id' => $usuarioId]);
         if (!$stmtCat->fetch()) {
+            http_response_code(400);
             die('Categoria inválida.');
         }
 
         if (!in_array($status, ['PAGO', 'PENDENTE'], true)) {
+            http_response_code(400);
             die('Status inválido.');
         }
 
         if (!in_array($formaPagamento, ['DINHEIRO', 'PIX', 'DEBITO', 'CREDITO'], true)) {
+            http_response_code(400);
             die('Forma de pagamento inválida.');
         }
 
@@ -132,12 +140,14 @@ class LancamentosController {
 
         $id = !empty($_POST['id']) ? (int)$_POST['id'] : null;
         if (!$id) {
+            http_response_code(400);
             die('ID inválido.');
         }
 
         // Tentar buscar primeiro (só para validar que pertence, e talvez pegar o mês para redirecionar)
         $lancamento = Lancamento::buscarPorId($pdo, $id, $usuarioId);
         if (!$lancamento) {
+            http_response_code(404);
             die('Lançamento não encontrado ou não pertence a você.');
         }
 

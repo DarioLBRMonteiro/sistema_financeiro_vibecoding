@@ -37,7 +37,7 @@ class CategoriasController
             
             require_once dirname(__DIR__) . '/views/categorias/index.php';
         } catch (Exception $e) {
-            Logger::error("Erro ao carregar categorias: " . $e->getMessage());
+            Logger::logError("Erro ao carregar categorias: " . $e->getMessage(), $e);
             die("Ocorreu um erro interno ao processar sua solicitação. Tente novamente mais tarde.");
         }
     }
@@ -54,11 +54,7 @@ class CategoriasController
 
         // Validação CSRF
         $csrfToken = $_POST['csrf_token'] ?? '';
-        if (!CSRF::validateToken($csrfToken)) {
-            Logger::security("Falha de validação de token CSRF em adição de categoria. IP: " . $_SERVER['REMOTE_ADDR']);
-            http_response_code(403);
-            die("Acesso negado (CSRF inválido).");
-        }
+        CSRF::validateToken($csrfToken);
 
         $usuario_id = $_SESSION['user_id'];
         $nome = trim($_POST['nome'] ?? '');
@@ -92,7 +88,7 @@ class CategoriasController
                 $_SESSION['error'] = "Não foi possível criar a categoria.";
             }
         } catch (Exception $e) {
-            Logger::error("Erro ao criar categoria para usuario {$usuario_id}: " . $e->getMessage());
+            Logger::logError("Erro ao criar categoria para usuario {$usuario_id}: " . $e->getMessage(), $e);
             $_SESSION['error'] = "Ocorreu um erro interno ao criar a categoria. Tente novamente mais tarde.";
         }
 
@@ -111,11 +107,7 @@ class CategoriasController
 
         // Validação CSRF
         $csrfToken = $_POST['csrf_token'] ?? '';
-        if (!CSRF::validateToken($csrfToken)) {
-            Logger::security("Falha de validação de token CSRF em exclusão de categoria. IP: " . $_SERVER['REMOTE_ADDR']);
-            http_response_code(403);
-            die("Acesso negado (CSRF inválido).");
-        }
+        CSRF::validateToken($csrfToken);
 
         $usuario_id = $_SESSION['user_id'];
         $id = filter_var($_POST['id'] ?? 0, FILTER_VALIDATE_INT);
@@ -133,7 +125,7 @@ class CategoriasController
                 $_SESSION['error'] = "Não foi possível excluir a categoria ou ela pertence ao sistema.";
             }
         } catch (Exception $e) {
-            Logger::error("Erro ao excluir categoria ID {$id} do usuario {$usuario_id}: " . $e->getMessage());
+            Logger::logError("Erro ao excluir categoria ID {$id} do usuario {$usuario_id}: " . $e->getMessage(), $e);
             $_SESSION['error'] = "Ocorreu um erro interno ao excluir a categoria.";
         }
 

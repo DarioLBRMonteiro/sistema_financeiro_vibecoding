@@ -7,6 +7,7 @@ session_start([
     'cookie_httponly' => true,
     'cookie_samesite' => 'Lax',
     'use_strict_mode' => true,
+    'cookie_secure'    => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
 ]);
 
 // Carrega as configurações globais

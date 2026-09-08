@@ -2,10 +2,10 @@
 
 Este documento registra o progresso atual do desenvolvimento do sistema, detalhando o estado de cada fase e indicando as próximas ações.
 
-* **Última Atualização:** 24/08/2026 21:43 (Local)
-* **Controle de Versão (Git e GitHub):** Inicializado local e remotamente. Commit inicial e *push* para o GitHub realizados com sucesso. Backup seguro estabelecido.
-* **Fase Atual:** Fase 7 - Perfil e Segurança da Conta (Concluída)
-* **Próximo Passo Recomendado:** Iniciar em um novo chat o desenvolvimento da Fase 8 (Testes Finais e Validação de Segurança), seguindo as instruções do plano.
+* **Última Atualização:** 08/09/2026 15:45 (Local)
+* **Controle de Versão (Git e GitHub):** Inicializado local e remotamente. Revisão de segurança e boas práticas aplicada.
+* **Fase Atual:** Fase 8 - Testes Finais e Validação de Segurança (Concluída)
+* **Próximo Passo Recomendado:** chat novo + prompt do passo 6.
 
 ---
 
@@ -78,10 +78,12 @@ Este documento registra o progresso atual do desenvolvimento do sistema, detalha
   * [x] Implementar `PerfilController.php` com validação de senha atual e nova senha alfanumérica
   * [x] Registrar alteração com sucesso em `logs/security.log`
 
-### [ ] Fase 8 - Testes Finais e Validação de Segurança
-* **Status:** Pendente
-* **Progresso:** 0%
+### [x] Fase 8 - Testes Finais e Validação de Segurança
+* **Status:** Concluído
+* **Progresso:** 100%
 * **Checklist:**
-  * [ ] Executar auditoria de segurança contra SQLi, XSS e CSRF
-  * [ ] Validar o isolamento rigoroso de registros por usuário
-  * [ ] Verificar captura e supressão de mensagens de erros técnicos na tela
+  * [x] Executar auditoria de segurança contra SQLi, XSS e CSRF
+  * [x] Validar o isolamento rigoroso de registros por usuário
+  * [x] Verificar captura e supressão de mensagens de erros técnicos na tela
+  * [x] Bloquear acesso direto aos diretórios sensíveis (`app/`, `database/`, `docs/`, `config/`, `logs/`) via `.htaccess`
+  * [x] Corrigir exceções não tratadas por chamadas de métodos indefinidos no Logger

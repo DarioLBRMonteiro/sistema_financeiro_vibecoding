@@ -39,9 +39,9 @@ $nomeMesAtual = $mesesNomes[$mes];
             <input type="hidden" name="ano" value="<?php echo $ano; ?>">
             
             <div class="col-md-4 d-flex justify-content-center align-items-center">
-                <a href="?mes=<?php echo $mesAnterior; ?>&ano=<?php echo $anoAnterior; ?>&busca=<?php echo urlencode($busca); ?>&categoria_id=<?php echo urlencode($categoriaId); ?>" class="btn btn-sm btn-light text-secondary me-2">&lt; Anterior</a>
-                <strong class="mx-2" style="min-width: 130px; text-align: center;"><?php echo $nomeMesAtual; ?> / <?php echo $ano; ?></strong>
-                <a href="?mes=<?php echo $mesProximo; ?>&ano=<?php echo $anoProximo; ?>&busca=<?php echo urlencode($busca); ?>&categoria_id=<?php echo urlencode($categoriaId); ?>" class="btn btn-sm btn-light text-secondary ms-2">Próximo &gt;</a>
+                <a href="?mes=<?php echo $mesAnterior; ?>&ano=<?php echo $anoAnterior; ?>&busca=<?php echo Sanitizer::e(urlencode($busca)); ?>&categoria_id=<?php echo Sanitizer::e(urlencode($categoriaId)); ?>" class="btn btn-sm btn-light text-secondary me-2">&lt; Anterior</a>
+                <strong class="mx-2" style="min-width: 130px; text-align: center;"><?php echo Sanitizer::e($nomeMesAtual); ?> / <?php echo (int)$ano; ?></strong>
+                <a href="?mes=<?php echo $mesProximo; ?>&ano=<?php echo $anoProximo; ?>&busca=<?php echo Sanitizer::e(urlencode($busca)); ?>&categoria_id=<?php echo Sanitizer::e(urlencode($categoriaId)); ?>" class="btn btn-sm btn-light text-secondary ms-2">Próximo &gt;</a>
             </div>
 
             <div class="col-md-4">
