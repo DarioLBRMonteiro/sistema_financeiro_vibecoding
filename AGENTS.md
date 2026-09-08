@@ -1,19 +1,19 @@
-# Contexto do Projeto - Gestão Financeira Simples
+# Contexto do Projeto - Gestão Financeira Simples (Modo Manutenção)
 
-Este arquivo serve como contexto global para qualquer assistente de Inteligência Artificial que venha a trabalhar neste repositório.
+Este arquivo serve como contexto global e guia de atuação em **Modo Manutenção** para qualquer assistente de Inteligência Artificial que venha a trabalhar neste repositório.
 
 ## Idioma
 Responda sempre em **português do Brasil**.
 
 ---
 
-## 1. Stack, Arquitetura e Restrições Técnicas (FSD)
+## 1. Stack, Arquitetura e Restrições Técnicas
 
 * **Linguagem Back-end:** PHP 8.x nativo (sem frameworks como Laravel, Symfony ou Slim).
 * **Banco de Dados:** MySQL 8.x. Acesso exclusivo via PDO com *prepared statements* obrigatórios.
 * **Front-end:** HTML5, CSS3, JavaScript puro (Vanilla JS), Bootstrap 5 (CSS/JS locais) e Chart.js v4.x (JS local UMD em `public/assets/js/chart.umd.js`).
 * **Dependências Externas:** Proibido o uso de Composer, NPM, Webpack ou CDNs para CSS/JS em tempo de execução (exceto a CDN de fontes/ícones do Google).
-* **Padrão Arquitetural:** MVC (Model-View-Controller) com Front Controller (`public/index.php`) e reescrita de URL.
+* **Padrão Arquitetural:** MVC (Model-View-Controller) com Front Controller (`public/index.php`) e reescrita de URL via `.htaccess`.
 * **Bloqueio de Acesso Direto:** Arquivos de visão e configuração contêm obrigatoriamente a verificação:
   ```php
   defined('APP_EXEC') or die('Acesso direto não permitido.');
@@ -23,8 +23,8 @@ Responda sempre em **português do Brasil**.
 
 ## 2. Ambientes do Sistema
 
-* **Desenvolvimento:** Ambiente local baseado no Apache/PHP (compatível com XAMPP). Erros detalhados do PHP/PDO devem ser gravados nos logs internos, mas nunca exibidos na tela.
-* **Produção:** Servidor Apache com isolamento rígido de diretórios sensíveis e supressão total de erros técnicos em tela.
+* **Desenvolvimento:** Ambiente local baseado no Apache/PHP (compatível com XAMPP). Erros detalhados do PHP/PDO devem ser gravados silenciosamente em `logs/error.log` e nunca exibidos na tela.
+* **Produção:** Servidor Apache com isolamento rígido de diretórios sensíveis (`.htaccess` com `Deny from all`), suporte a HTTPS e supressão total de erros técnicos em tela (`'env' => 'producao'`).
 * **Configuração:** Armazenada unicamente em `config/config.php` retornando um array PHP. Não utilizar arquivos `.env`.
 
 ---
@@ -34,13 +34,13 @@ Responda sempre em **português do Brasil**.
 ```text
 ├── app/
 │   ├── controllers/      # Processamento das requisições e controle de fluxo
-│   ├── models/           # Regras de negócio e consultas PDO (isoladas por usuário)
+│   ├── models/           # Regras de negócio e consultas PDO (isoladas por usuario_id)
 │   ├── views/            # Visões HTML renderizadas no servidor
 │   │   ├── auth/         # Telas de login, cadastro, recuperação e redefinição de senha
 │   │   ├── categorias/   # Tela de gerenciamento de categorias
 │   │   ├── dashboard/    # Tela do painel financeiro principal
-│   │   ├── extrato/      # Tela de histórico e extrato
-│   │   ├── perfil/       # Tela de alteração de dados do perfil (senha)
+│   │   ├── extrato/      # Tela de histórico e extrato de lançamentos
+│   │   ├── perfil/       # Tela de alteração de senha
 │   │   └── templates/    # Templates reutilizáveis (header, footer, sidebar)
 │   └── helpers/          # Funções de suporte (Auth, CSRF, Logger, Sanitizer)
 ├── config/               # Arquivos de configuração (config.php e database.php)
@@ -49,73 +49,49 @@ Responda sempre em **português do Brasil**.
 ├── public/               # Raiz pública acessível pelo navegador
 │   ├── assets/           # Arquivos estáticos (css, js, imagens)
 │   └── index.php         # Front Controller e roteador do sistema
-└── docs/                 # Documentação de apoio do projeto
+└── docs/                 # Documentação (FSD, DESIGN, MANUTENCAO, COMO-PEDIR-MUDANCAS, STATUS, ERROS)
 ```
 
 ---
 
-## 4. Comandos e Execução do Projeto
+## 4. Protocolo Obrigatório para Mudanças Futuras
 
-* **Instalação:**
-  1. Configurar o banco de dados MySQL executando o script `database/schema.sql`.
-  2. Duplicar ou ajustar `config/config.php` informando as credenciais de banco correspondentes.
-  3. Iniciar o servidor web Apache e MySQL local (ex: através do painel do XAMPP).
-* **Execução:** Acessar a URL local configurada em `app_url` (padrão: `http://localhost/gestao-financeira` ou similar).
-* **Testes/Validação:** Validação visual no navegador e verificação manual dos logs em `logs/error.log` e `logs/security.log`.
+### Antes de qualquer alteração:
+1. Ler `docs/MANUTENCAO.md`.
+2. Ler `docs/FSD.md`.
+3. Ler `docs/DESIGN.md`, se a alteração envolver interface ou componentes visuais.
+4. Ler `docs/STATUS.md`.
+5. Ler `docs/ERROS.md`.
+6. Entender integralmente o pedido do usuário.
+7. Explicar o plano de implementação antes de alterar qualquer arquivo.
+
+### Depois de qualquer alteração:
+1. Testar o que foi alterado (sintaxe via PHP Lint e testes manuais de fluxo).
+2. Atualizar `docs/STATUS.md`.
+3. Registrar o erro e a solução em `docs/ERROS.md`, se algum bug for encontrado ou corrigido.
+4. Fazer commit no Git ou entregar os comandos para o usuário executar.
+5. Explicar ao usuário como testar e validar as alterações no navegador.
 
 ---
 
-## 5. Regras de Segurança do Projeto
+## 5. Regras de Segurança Inegociáveis
 
-* **Isolamento de Dados (Multitenancy Rígido):** Toda operação SQL executada para lançamentos e categorias personalizadas deve restringir a consulta ao ID do usuário autenticado:
+* **Isolamento de Dados (Multitenancy Rígido):** Toda operação SQL executada em `lancamentos` ou `categorias` personalizadas deve restringir a consulta ao ID do usuário autenticado:
   ```sql
   WHERE usuario_id = :usuario_id
   ```
-  O ID do usuário logado é extraído de `$_SESSION['user_id']`.
-* **Proteção contra Injeção SQL:** Uso obrigatório de Prepared Statements com PDO para qualquer query dinâmica.
-* **Proteção contra XSS:** Todas as saídas de texto dinâmicas nas views devem ser escapadas usando o helper `Sanitizer::e($valor)`.
-* **Proteção contra CSRF:** Todas as requisições de alteração de estado (POST) devem validar um token CSRF único gerado na sessão (`CSRF::validateToken($_POST['csrf_token'])`). Se inválido, abortar com HTTP 403 e registrar em `logs/security.log`.
-* **Gestão de Sessão Segura:** Sessão iniciada no Front Controller com parâmetros reforçados:
-  ```php
-  session_start([
-      'cookie_httponly' => true,
-      'cookie_samesite' => 'Lax',
-      'use_strict_mode' => true,
-  ]);
-  ```
-  E regeneração imediata do ID de sessão no login com `session_regenerate_id(true)`.
-* **Criptografia de Senhas:** Hashes gerados com `password_hash($senha, PASSWORD_BCRYPT)` e verificados com `password_verify($senha, $hash)`.
-* **Proteção de Arquivos Sensíveis:** O acesso público direto aos diretórios `config/`, `logs/` e `app/` é bloqueado via arquivos `.htaccess`.
-* **Segurança de Logs:** Erros técnicos detalhados (exceções PDO, falhas PHP) são capturados e gravados silenciosamente em `logs/error.log`. Mensagens amigáveis genéricas são exibidas ao usuário. Auditorias de conta são salvas em `logs/security.log`.
+  O ID do usuário logado deve ser obrigatoriamente extraído de `$_SESSION['user_id']`.
+* **Proteção contra Injeção SQL:** Uso obrigatório de Prepared Statements via PDO com `PDO::ATTR_EMULATE_PREPARES => false`.
+* **Proteção contra XSS:** Todas as saídas de texto dinâmicas nas views devem ser escapadas utilizando o helper `Sanitizer::e($valor)`.
+* **Proteção contra CSRF:** Todas as requisições POST devem validar o token CSRF via `CSRF::validateToken($_POST['csrf_token'] ?? '')`. Se inválido, abortar com HTTP 403.
+* **Gestão de Sessão Segura:** Manter inicialização segura da sessão em `public/index.php` e regenerar o ID via `session_regenerate_id(true)` no login.
+* **Soft Delete:** Nunca utilizar `DELETE FROM` em movimentações ou categorias. Atualizar `deleted_at = NOW()`.
+* **Proteção de Diretórios Sensíveis:** Manter arquivos `.htaccess` (`Deny from all`) nos diretórios `app/`, `config/`, `database/`, `docs/` e `logs/`.
 
 ---
 
-## 6. Boas Práticas e Padrões de Código
+## 6. Padrões de Código e Interface
 
-* **Código Limpo:** Escrever código claro, legível e de responsabilidade única. Funções pequenas e nomes de variáveis/métodos altamente descritivos em português (ou inglês para estruturas técnicas comuns, desde que padronizados).
-* **Comentários:** Úteis e escritos em português do Brasil quando agregarem valor explicativo.
-* **Sem Duplicação:** Evitar código repetido. Reaproveitar blocos comuns através de helpers ou views de templates.
-* **Interface (Design System Admin Logic):** Seguir as especificações de cores, fontes, bordas (4px), status pills (100px), numerais tabulares e densidade de dados contidas em `docs/DESIGN.md`.
-
----
-
-## 7. Protocolo dos Arquivos Vivos (Uso Obrigatório)
-
-Antes de iniciar qualquer trabalho:
-1. Ler `docs/FSD.md`.
-2. Ler `docs/DESIGN.md`.
-3. Ler `docs/INSUMOS.md`.
-4. Ler `docs/PLANO.md`.
-5. Ler `docs/STATUS.md`.
-6. Ler `docs/ERROS.md`.
-
-Use sempre caminhos relativos à raiz do projeto.
-Não transformar estes caminhos em links absolutos.
-Não usar links `file:///`.
-Não registrar caminhos locais da máquina atual dentro do `AGENTS.md`.
-
-Ao terminar qualquer trabalho:
-1. Atualizar `docs/STATUS.md`.
-2. Registrar erros e soluções em `docs/ERROS.md`, se houver.
-3. Informar ao usuário o que foi feito.
-4. Informar como testar ou validar a entrega.
+* **Código Limpo:** Escrever código em português do Brasil (ou inglês para termos técnicos comuns), claro, modular e de responsabilidade única.
+* **Interface (Design System Admin Logic):** Seguir as especificações contidas em `docs/DESIGN.md` (cores `#0f2d7b`/`#10b981`/`#ba1a1a`, fontes Public Sans/Inter, bordas de 4px, status pills de 100px e numerais tabulares `data-mono`).
+* **Caminhos Relativos:** Usar sempre caminhos relativos à raiz do projeto nos documentos. Nunca utilizar links absolutos `file:///`.
