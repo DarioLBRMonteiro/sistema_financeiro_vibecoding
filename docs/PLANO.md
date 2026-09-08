@@ -31,7 +31,7 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
 
 ---
 
-## Fase 2 - Layout Base e Templates (Design System)
+### Fase 2 - Layout Base e Templates (Design System)
 * **Objetivo:** Desenvolver o layout base da aplicação utilizando Bootstrap 5 local e aplicar o design system *Admin Logic* especificado em `docs/DESIGN.md`.
 * **Arquivos e Diretórios:**
   * `public/assets/css/admin-logic.css`
@@ -40,9 +40,9 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
   * `app/views/templates/sidebar.php`
   * `public/assets/js/app.js`
 * **Checklist:**
-  * [ ] Escrever o CSS customizado em `public/assets/css/admin-logic.css` aplicando os tokens de cores, tipografia (Public Sans/Inter), espaçamentos e shapes definidos em `docs/DESIGN.md`.
-  * [ ] Criar o cabeçalho (`header.php`), barra lateral de navegação (`sidebar.php`) e rodapé (`footer.php`) com responsividade e suporte a numerais tabulares para dados numéricos.
-  * [ ] Criar o arquivo `app.js` para manipulação comum de UI e inicializações dinâmicas.
+  * [x] Escrever o CSS customizado em `public/assets/css/admin-logic.css` aplicando os tokens de cores, tipografia (Public Sans/Inter), espaçamentos e shapes definidos em `docs/DESIGN.md`.
+  * [x] Criar o cabeçalho (`header.php`), barra lateral de navegação (`sidebar.php`) e rodapé (`footer.php`) com responsividade e suporte a numerais tabulares para dados numéricos.
+  * [x] Criar o arquivo `app.js` para manipulação comum de UI e inicializações dinâmicas.
 * **Critérios de Pronto:**
   * Layout base responsivo e renderizando perfeitamente no navegador.
   * Cores, fontes e arredondamentos de 4px aplicados corretamente nos botões, inputs e status pills (100px) conforme o DESIGN.md.
@@ -58,12 +58,12 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
   * `app/views/auth/login.php`, `app/views/auth/cadastro.php`, `app/views/auth/recuperar-senha.php`, `app/views/auth/redefinir-senha.php`
   * `logs/security.log`, `logs/email_simulation.log`
 * **Checklist:**
-  * [ ] Implementar a model `Usuario.php` para operações com a tabela `usuarios` usando PDO e prepared statements.
-  * [ ] Implementar `AuthController.php` com ações para login (com `session_regenerate_id(true)`), logout, cadastro e recuperação de senha.
-  * [ ] Criar as telas de login, cadastro, recuperação e redefinição de senha com validações rigorosas (tamanho da senha, e-mail único, etc.) revalidadas no back-end.
-  * [ ] Adicionar simulação de envio de e-mails de redefinição de senha salvando os tokens em `logs/email_simulation.log`.
-  * [ ] Integrar proteção CSRF a todos os formulários e rotas POST.
-  * [ ] Registrar logs de auditoria de segurança (tentativas de login, redefinição de senha) em `logs/security.log`.
+  * [x] Implementar a model `Usuario.php` para operações com a tabela `usuarios` usando PDO e prepared statements.
+  * [x] Implementar `AuthController.php` com ações para login (com `session_regenerate_id(true)`), logout, cadastro e recuperação de senha.
+  * [x] Criar as telas de login, cadastro, recuperação e redefinição de senha com validações rigorosas (tamanho da senha, e-mail único, etc.) revalidadas no back-end.
+  * [x] Adicionar simulação de envio de e-mails de redefinição de senha salvando os tokens em `logs/email_simulation.log`.
+  * [x] Integrar proteção CSRF a todos os formulários e rotas POST.
+  * [x] Registrar logs de auditoria de segurança (tentativas de login, redefinição de senha) em `logs/security.log`.
 * **Critérios de Pronto:**
   * Cadastro de novos usuários funcional com criptografia `PASSWORD_BCRYPT`.
   * Login bloqueando e-mails ou senhas incorretas e redirecionando corretamente para o dashboard.
@@ -79,11 +79,11 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
   * `app/controllers/DashboardController.php`, `app/controllers/LancamentosController.php`
   * `app/views/dashboard/index.php`, `app/views/extrato/index.php`
 * **Checklist:**
-  * [ ] Criar a model `Lancamento.php` implementando métodos de leitura com cláusula obrigatória `usuario_id = :usuario_id` e filtrando registros ativos (`deleted_at IS NULL`).
-  * [ ] Implementar `DashboardController.php` calculando a soma de receitas, despesas e saldo líquido do mês.
-  * [ ] Desenvolver a tela de Dashboard com cartões KPI (receita, despesa, saldo) e lógica para destacar saldo negativo na cor vermelha (`#ba1a1a`).
-  * [ ] Renderizar os gráficos usando `Chart.js` local (Fluxo de Caixa dos últimos meses e Gastos por Categoria do mês vigente).
-  * [ ] Desenvolver a tela de Extrato com a listagem de lançamentos na tabela, com paginação/filtro temporal, busca textual e filtro por categoria.
+  * [x] Criar a model `Lancamento.php` implementando métodos de leitura com cláusula obrigatória `usuario_id = :usuario_id` e filtrando registros ativos (`deleted_at IS NULL`).
+  * [x] Implementar `DashboardController.php` calculando a soma de receitas, despesas e saldo líquido do mês.
+  * [x] Desenvolver a tela de Dashboard com cartões KPI (receita, despesa, saldo) e lógica para destacar saldo negativo na cor vermelha (`#ba1a1a`).
+  * [x] Renderizar os gráficos usando `Chart.js` local (Fluxo de Caixa dos últimos meses e Gastos por Categoria do mês vigente).
+  * [x] Desenvolver a tela de Extrato com a listagem de lançamentos na tabela, com paginação/filtro temporal, busca textual e filtro por categoria.
 * **Critérios de Pronto:**
   * O saldo mensal calculado reflete fielmente as receitas e despesas filtradas.
   * O destaque visual do saldo negativo (vermelho de erro) funciona corretamente em tempo de execução.
@@ -98,10 +98,10 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
   * `app/controllers/LancamentosController.php` (ações de mutação)
   * Modais inseridos em `app/views/extrato/index.php` ou templates associados
 * **Checklist:**
-  * [ ] Implementar ações de inserção e atualização em `Lancamento.php` (Model) e `LancamentosController.php`, com validações estritas de inputs (valor positivo, tipos permitidos, data válida).
-  * [ ] Desenvolver o modal de cadastro de novo lançamento e o modal de edição de lançamento preenchendo os dados existentes.
-  * [ ] Desenvolver o modal de confirmação de exclusão exibindo a descrição e valor do lançamento.
-  * [ ] Implementar a exclusão lógica (*Soft Delete*) atualizando a coluna `deleted_at = NOW()`.
+  * [x] Implementar ações de inserção e atualização em `Lancamento.php` (Model) e `LancamentosController.php`, com validações estritas de inputs (valor positivo, tipos permitidos, data válida).
+  * [x] Desenvolver o modal de cadastro de novo lançamento e o modal de edição de lançamento preenchendo os dados existentes.
+  * [x] Desenvolver o modal de confirmação de exclusão exibindo a descrição e valor do lançamento.
+  * [x] Implementar a exclusão lógica (*Soft Delete*) atualizando a coluna `deleted_at = NOW()`.
 * **Critérios de Pronto:**
   * Cadastro e edição de lançamentos funcionam com validação de dados no servidor e no cliente.
   * A exclusão lógica atualiza o banco de dados sem apagar fisicamente a linha, e o lançamento deixa de aparecer na listagem regular.
@@ -116,10 +116,10 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
   * `app/controllers/CategoriasController.php`
   * `app/views/categorias/index.php`
 * **Checklist:**
-  * [ ] Implementar a model `Categoria.php` para gerenciar categorias personalizadas (`usuario_id = :usuario_id`) e categorias padrão do sistema (`usuario_id IS NULL`).
-  * [ ] Desenvolver a tela de Categorias dividida em inserção de nova categoria e listagem das categorias existentes (bloqueando a exclusão de categorias padrão).
-  * [ ] Criar o modal de confirmação de exclusão de categoria personalizada alertando que lançamentos passados manterão o nome da categoria no histórico.
-  * [ ] Implementar a exclusão lógica da categoria e verificar que no extrato ela continua aparecendo por meio de um `LEFT JOIN` nas consultas históricas.
+  * [x] Implementar a model `Categoria.php` para gerenciar categorias personalizadas (`usuario_id = :usuario_id`) e categorias padrão do sistema (`usuario_id IS NULL`).
+  * [x] Desenvolver a tela de Categorias dividida em inserção de nova categoria e listagem das categorias existentes (bloqueando a exclusão de categorias padrão).
+  * [x] Criar o modal de confirmação de exclusão de categoria personalizada alertando que lançamentos passados manterão o nome da categoria no histórico.
+  * [x] Implementar a exclusão lógica da categoria e verificar que no extrato ela continua aparecendo por meio de um `LEFT JOIN` nas consultas históricas.
 * **Critérios de Pronto:**
   * Inserção de categorias personalizadas validando duplicidade de nome e tipo de categoria ativa de forma case-insensitive.
   * Exclusão lógica de categoria concluída, com a categoria sumindo das opções de cadastro de novos lançamentos.
@@ -134,10 +134,10 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
   * `app/views/perfil/senha.php`
   * `logs/security.log`
 * **Checklist:**
-  * [ ] Criar a página ou modal de alteração de senha em `app/views/perfil/senha.php`.
-  * [ ] Implementar `PerfilController.php` validando a senha atual do usuário (`password_verify`), a força da nova senha (alfanumérica, min. 8 caracteres) e a confirmação de senha.
-  * [ ] Salvar a nova senha criptografada com `password_hash` no banco.
-  * [ ] Registrar o evento de sucesso de alteração de senha em `logs/security.log`.
+  * [x] Criar a página ou modal de alteração de senha em `app/views/perfil/senha.php`.
+  * [x] Implementar `PerfilController.php` validando a senha atual do usuário (`password_verify`), a força da nova senha (alfanumérica, min. 8 caracteres) e a confirmação de senha.
+  * [x] Salvar a nova senha criptografada com `password_hash` no banco.
+  * [x] Registrar o evento de sucesso de alteração de senha em `logs/security.log`.
 * **Critérios de Pronto:**
   * A alteração de senha só ocorre se a senha atual digitada estiver correta.
   * O sistema impede senhas fáceis ou curtas, revalidando tudo no servidor.
@@ -148,11 +148,11 @@ Este plano define as fases de implementação incremental para o sistema **Gest�
 ## Fase 8 - Testes Finais e Validação de Segurança
 * **Objetivo:** Realizar auditorias no sistema contra falhas como injeção SQL, XSS, CSRF, verificar o isolamento completo de dados de usuários diferentes e testar contingência de logs de erro.
 * **Checklist:**
-  * [ ] Executar testes manuais de injeção SQL nos inputs de busca e cadastro.
-  * [ ] Testar escape de HTML (XSS) injetando scripts no campo descrição do lançamento.
-  * [ ] Validar a proteção contra CSRF enviando formulários com tokens alterados.
-  * [ ] Garantir o isolamento de dados forçando o acesso de IDs de lançamentos de outros usuários via GET/POST para verificar que o sistema barra a visualização/edição.
-  * [ ] Verificar que erros de banco de dados não são exibidos em tela no ambiente de produção e que o arquivo `logs/error.log` é gravado adequadamente.
+  * [x] Executar testes manuais de injeção SQL nos inputs de busca e cadastro.
+  * [x] Testar escape de HTML (XSS) injetando scripts no campo descrição do lançamento.
+  * [x] Validar a proteção contra CSRF enviando formulários com tokens alterados.
+  * [x] Garantir o isolamento de dados forçando o acesso de IDs de lançamentos de outros usuários via GET/POST para verificar que o sistema barra a visualização/edição.
+  * [x] Verificar que erros de banco de dados não são exibidos em tela no ambiente de produção e que o arquivo `logs/error.log` é gravado adequadamente.
 * **Critérios de Pronto:**
   * Nenhuma vulnerabilidade crítica (SQLi, XSS, CSRF) detectada.
   * O isolamento de dados entre usuários bloqueia qualquer acesso cruzado.
